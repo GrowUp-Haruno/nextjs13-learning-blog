@@ -1,4 +1,4 @@
-import { getPost, getPosts } from '../../../src/lib/getJsonPlaceholder';
+import { getPostNoStore, getPostsNoStore } from '../../../src/lib/getJsonPlaceholder';
 import styles from '../../page.module.css';
 
 type paramsType = {
@@ -6,9 +6,9 @@ type paramsType = {
 };
 
 const page = async ({ params }: { params: paramsType }) => {
-  console.log(`${params.id} pre rendering`);
+  console.log(`${params.id} pre rendering(dynamic)`);
 
-  const { title, body } = await getPost(params.id);
+  const { title, body } = await getPostNoStore(params.id);
   const bodyLine = body.split('\n');
 
   return (
@@ -27,7 +27,7 @@ const page = async ({ params }: { params: paramsType }) => {
 export default page;
 
 export async function generateStaticParams(): Promise<paramsType[]> {
-  const posts = await getPosts();
+  const posts = await getPostsNoStore();
   return posts.map((post) => ({
     id: post.id.toString(),
   }));
