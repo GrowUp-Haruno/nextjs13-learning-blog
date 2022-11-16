@@ -82,3 +82,100 @@ export const dynamicParams = false;
 ```
 
 参考文献：[Routing](https://beta.nextjs.org/docs/routing/fundamentals)
+
+### Data Fetching
+
+JSON placeholder の`/posts`から Blog のリストとコンテンツ、動的セグメントを設定できるようにするためのデータフェッチ関数を作成します。
+`/src/lib/getJsonPlaceholder.ts`を作成して、下記のコードを用意します。
+
+```ts
+type postType = {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+};
+
+type postsType = postType[];
+
+export const getPosts = async () => {
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+  return await (res.json() as Promise<postsType>);
+};
+
+export const getPost = async (id: string) => {
+  const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
+  return await (res.json() as Promise<postType>);
+};
+```
+
+`getPosts()`は全ての Blog データを取得して、Blog リストや動的セグメントの生成に使用します。
+`getPost(id:string)`は記事データを取得して、各セグメントの Blog 記事の生成に使用します。
+
+#### Blog リスト作成
+
+`/app/blog/page.tsx`を編集します。
+
+```tsx
+import Link from 'next/link';
+import { getPosts } from '../../src/lib/getJsonPlaceholder';
+import styles from '../page.module.css';
+
+const page = async () => {
+  const posts = await getPosts();
+  return (
+    <div className={styles.container}>
+      <main className={styles.main}>
+        <h1 className={styles.title}>Blog List</h1>
+        <div className={styles.grid}>
+          {posts.map(({ id, title }) => (
+            <Link key={id} href={`/blog/${id}`}>
+              <div className={styles.card}>{title}</div>
+            </Link>
+          ))}
+        </div>
+      </main>
+    </div>
+  );
+};
+export default page;
+```
+
+データの取得は`const posts = await getPosts();`で行います。
+サーバーコンポーネントは非同期でロードされるため、`async/await`が使用可能です。
+また、後述する Suspense にも対応します。
+
+React の場合は、SWR や React Query、useState + useEffect などで hook を定義しますが、Next.js 13 のサーバーコンポーネントは取得データを変数に格納するだけです。
+
+posts は配列データのため、map 関数で Blog リストを展開します。
+
+```tsx
+{
+  posts.map(({ id, title }) => (
+    <Link key={id} href={`/blog/${id}`}>
+      <div className={styles.card}>{title}</div>
+    </Link>
+  ));
+}
+```
+
+`<Link></Link>`はルート間を移動するための手段となります。
+Next.js 12 以前はこの内側に a タグを入れる必要がありましたが、これが不要になりました。
+
+`/app/blog/[id]/page.tsx`で動的にルートが設定されるため、href には`/blog/${id}`を指定します。
+
+#### 動的セグメントの設定
+
+`/app/blog/[id]/page.tsx`を開き、generateStaticParams()を修正します。
+
+```tsx
+export async function generateStaticParams(): Promise<paramsType[]> {
+  const posts = await getPosts();
+  return posts.map((post) => ({
+    id: post.id.toString(),
+  }));
+}
+```
+
+取得した posts を map 関数で`{id:string}`の配列を生成し、戻り値として返しています。
+これにより、[id]の部分が動的に変化するようになります。
