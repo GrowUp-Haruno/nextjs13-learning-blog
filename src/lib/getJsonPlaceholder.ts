@@ -16,3 +16,16 @@ export const getPost = async (id: string) => {
   const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
   return await (res.json() as Promise<postType>);
 };
+export const getPostsNoStore = async () => {
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
+    cache: 'no-store',
+  });
+  return await (res.json() as Promise<postsType>);
+};
+
+export const getPostNoStore = async (id: string) => {
+  const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+    cache: 'no-store',
+  });
+  return await (res.json() as Promise<postType>);
+};
