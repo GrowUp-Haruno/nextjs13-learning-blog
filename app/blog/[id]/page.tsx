@@ -12,16 +12,14 @@ const page = async ({ params }: { params: paramsType }) => {
   const bodyLine = body.split('\n');
 
   return (
-    <div className={styles.container}>
-      <main className={styles.main}>
-        <h1 className={styles.title}>{title}</h1>
-        <div className={styles.article}>
-          {bodyLine.map((body, i) => (
-            <p key={i}>{body}</p>
-          ))}
-        </div>
-      </main>
-    </div>
+    <main className={styles.main}>
+      <h1 className={styles.title}>{title}</h1>
+      <div className={styles.article}>
+        {bodyLine.map((body, i) => (
+          <p key={i}>{body}</p>
+        ))}
+      </div>
+    </main>
   );
 };
 export default page;

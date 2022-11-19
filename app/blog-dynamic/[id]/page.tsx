@@ -1,5 +1,8 @@
-import { getPostNoStore, getPostsNoStore } from '../../../src/lib/getJsonPlaceholder';
+import { Suspense } from 'react';
+import { getPostsNoStore } from '../../../src/lib/getJsonPlaceholder';
+
 import styles from '../../page.module.css';
+import { Article } from './components/Article';
 
 type paramsType = {
   id: string;
@@ -8,20 +11,13 @@ type paramsType = {
 const page = async ({ params }: { params: paramsType }) => {
   console.log(`${params.id} pre rendering(dynamic)`);
 
-  const { title, body } = await getPostNoStore(params.id);
-  const bodyLine = body.split('\n');
-
   return (
-    <div className={styles.container}>
-      <main className={styles.main}>
-        <h1 className={styles.title}>{title}</h1>
-        <div className={styles.article}>
-          {bodyLine.map((body, i) => (
-            <p key={i}>{body}</p>
-          ))}
-        </div>
-      </main>
-    </div>
+    <main className={styles.main}>
+      <Suspense fallback={<p>loading...</p>}>
+        {/* @ts-expect-error Server Component */}
+        <Article id={params.id} />
+      </Suspense>
+    </main>
   );
 };
 export default page;
