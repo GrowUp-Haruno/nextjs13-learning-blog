@@ -179,3 +179,7 @@ export async function generateStaticParams(): Promise<paramsType[]> {
 
 取得した posts を map 関数で`{id:string}`の配列を生成し、戻り値として返しています。
 これにより、[id]の部分が動的に変化するようになります。
+
+### サーバーコンポーネントの中にサーバーコンポーネントを入れる際に発生するタイプエラーの対処方法について
+Reactの使用上、Promise<Element>をJSXのリターンに入れると型エラーが発生するため、下記のコメントを入れて回避する必要がある
+```{/* @ts-expect-error Server Component */}```
