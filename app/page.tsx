@@ -18,6 +18,11 @@ export default function Home() {
           <h2>Blog（動的生成版）</h2>
           <p>アクセス時にサーバーでプリレンダリングされるBlogはこちら</p>
         </Link>
+
+        <Link href="/blog-dynamic-error" className={styles.card}>
+          <h2>Blog（フェッチエラー版）</h2>
+          <p>プリレンダリング中にサーバー側で通信エラーを発生した時の挙動はこちら</p>
+        </Link>
       </div>
     </main>
   );
