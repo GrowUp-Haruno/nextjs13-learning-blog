@@ -6,7 +6,7 @@ type paramsType = {
 };
 
 const page = async ({ params }: { params: paramsType }) => {
-  console.log(`${params.id} pre rendering`);
+  // console.log(`${params.id} pre rendering`);
 
   const { title, body } = await getPost(params.id);
   const bodyLine = body.split('\n');
