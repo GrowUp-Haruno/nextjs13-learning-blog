@@ -21,7 +21,14 @@ export default function Home() {
 
         <Link href="/blog-dynamic-error" className={styles.card}>
           <h2>Blog（フェッチエラー版）</h2>
-          <p>プリレンダリング中にサーバー側で通信エラーを発生した時の挙動はこちら</p>
+          <p>
+            プリレンダリング中にサーバー側で通信エラーを発生した時の挙動はこちら
+          </p>
+        </Link>
+
+        <Link href="/blog-dynamic-not-found" className={styles.card}>
+          <h2>Blog（NotFound版）</h2>
+          <p>プリレンダリング中にデータの取得失敗した時にNotFoundを表示する</p>
         </Link>
       </div>
     </main>

@@ -40,3 +40,10 @@ export const getPostNoStoreError = async (id: string) => {
     throw new Error('getPostNoStoreErrorで通信エラーが発生しました。');
   return res.json() as Promise<postType>;
 };
+export const getPostNoStoreNotFound = async (id: string) => {
+  const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}a`, {
+    cache: 'no-store',
+  });
+  if (!res.ok) return undefined;
+  return res.json() as Promise<postType>;
+};
