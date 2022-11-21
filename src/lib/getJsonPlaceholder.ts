@@ -1,3 +1,5 @@
+import 'server-only';
+
 export type postType = {
   userId: number;
   id: number;
@@ -34,6 +36,7 @@ export const getPostNoStoreError = async (id: string) => {
   const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}a`, {
     cache: 'no-store',
   });
-  if(!res.ok) throw new Error('getPostNoStoreErrorで通信エラーが発生しました。');
+  if (!res.ok)
+    throw new Error('getPostNoStoreErrorで通信エラーが発生しました。');
   return res.json() as Promise<postType>;
 };
