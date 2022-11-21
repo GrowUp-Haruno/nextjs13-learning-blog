@@ -193,3 +193,6 @@ layout.tsx内のchildrenは自動的にSuspenseでラップされており、さ
 error.tsxを用意している場合、layout.tsx内のchildrenが自動的にErrorBoundaryでラップされ、fallbackにerror.tsxを設定されます。
 このerror.tsxはクライアントコンポーネントである必要があるため、ファイルの１行目に```'use client'```を入れてクライアントコンポーネント化する必要がある。
 本番環境でエラーが発生した場合、クライアントにはダイジェスト版のエラー、サーバー側にはthrowされた内容が表示されます。
+
+### NotFoundについて
+任意のルートにnot-found.tsxを配置した状態で、next/navigationのnotFound()を実行すると、page.tsxの内容がnot-faound.tsxに差し代わります。

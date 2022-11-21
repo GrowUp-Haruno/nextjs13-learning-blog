@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { useEffect } from 'react';
-import { getPosts } from '../src/lib/getJsonPlaceholder';
 import styles from './page.module.css';
 
 export default function Error({ error }: { error: Error }) {
