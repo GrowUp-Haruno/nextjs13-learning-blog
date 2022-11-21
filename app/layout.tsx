@@ -1,18 +1,38 @@
-import './globals.css'
+import Image from 'next/image';
+import { Suspense } from 'react';
+import './globals.css';
+import styles from './page.module.css';
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      {/*
-        <head /> will contain the components returned by the nearest parent
-        head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
-      */}
+    <html lang="jp">
       <head />
-      <body>{children}</body>
+      <body>
+        <div className={styles.container}>
+          {children}
+          <footer className={styles.footer}>
+            <a
+              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Powered by{' '}
+              <span className={styles.logo}>
+                <Image
+                  src="/vercel.svg"
+                  alt="Vercel Logo"
+                  width={72}
+                  height={16}
+                />
+              </span>
+            </a>
+          </footer>
+        </div>
+      </body>
     </html>
-  )
+  );
 }

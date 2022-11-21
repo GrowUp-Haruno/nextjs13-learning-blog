@@ -1,31 +1,27 @@
-import { getPost, getPosts } from '../../../src/lib/getJsonPlaceholder';
+import { Suspense } from 'react';
+import { getPostsNoStore } from '../../../src/lib/getJsonPlaceholder';
+
 import styles from '../../page.module.css';
+import { Article } from './components/Article';
 
 type paramsType = {
   id: string;
 };
 
 const page = async ({ params }: { params: paramsType }) => {
-  // console.log(`${params.id} pre rendering`);
-
-  const { title, body } = await getPost(params.id);
-  const bodyLine = body.split('\n');
+  // console.log(`${params.id} pre rendering(dynamic)`);
 
   return (
     <main className={styles.main}>
-      <h1 className={styles.title}>{title}</h1>
-      <div className={styles.article}>
-        {bodyLine.map((body, i) => (
-          <p key={i}>{body}</p>
-        ))}
-      </div>
+      {/* @ts-expect-error Server Component */}
+      <Article id={params.id} />
     </main>
   );
 };
 export default page;
 
 export async function generateStaticParams(): Promise<paramsType[]> {
-  const posts = await getPosts();
+  const posts = await getPostsNoStore();
   return posts.map((post) => ({
     id: post.id.toString(),
   }));

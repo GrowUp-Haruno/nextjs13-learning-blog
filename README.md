@@ -179,3 +179,20 @@ export async function generateStaticParams(): Promise<paramsType[]> {
 
 取得した posts を map 関数で`{id:string}`の配列を生成し、戻り値として返しています。
 これにより、[id]の部分が動的に変化するようになります。
+
+### サーバーコンポーネントの中にサーバーコンポーネントを入れる際に発生するタイプエラーの対処方法について
+Reactの使用上、Promise<Element>をJSXのリターンに入れると型エラーが発生するため、下記のコメントを入れて回避する必要がある
+```{/* @ts-expect-error Server Component */}```
+
+### Next.js 13におけるSuspenseの挙動
+layout.tsx内のchildrenは自動的にSuspenseでラップされており、さらにloading.tsxを用意した場合は、これをfallbackとして設定されます。
+
+小さいコンポーネント単位で行いたい場合は、手動でSuspeseとfallbackを設定します。
+
+### Error Boundaryについて
+error.tsxを用意している場合、layout.tsx内のchildrenが自動的にErrorBoundaryでラップされ、fallbackにerror.tsxを設定されます。
+このerror.tsxはクライアントコンポーネントである必要があるため、ファイルの１行目に```'use client'```を入れてクライアントコンポーネント化する必要がある。
+本番環境でエラーが発生した場合、クライアントにはダイジェスト版のエラー、サーバー側にはthrowされた内容が表示されます。
+
+### NotFoundについて
+任意のルートにnot-found.tsxを配置した状態で、next/navigationのnotFound()を実行すると、page.tsxの内容がnot-faound.tsxに差し代わります。
