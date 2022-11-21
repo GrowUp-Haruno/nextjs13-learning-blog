@@ -183,3 +183,8 @@ export async function generateStaticParams(): Promise<paramsType[]> {
 ### サーバーコンポーネントの中にサーバーコンポーネントを入れる際に発生するタイプエラーの対処方法について
 Reactの使用上、Promise<Element>をJSXのリターンに入れると型エラーが発生するため、下記のコメントを入れて回避する必要がある
 ```{/* @ts-expect-error Server Component */}```
+
+### Next.js 13におけるSuspenseの挙動
+layout.tsx内のchildrenは自動的にSuspenseでラップされており、さらにloading.tsxを用意した場合は、これをfallbackとして設定されます。
+
+小さいコンポーネント単位で行いたい場合は、手動でSuspeseとfallbackを設定します。

@@ -9,14 +9,12 @@ type paramsType = {
 };
 
 const page = async ({ params }: { params: paramsType }) => {
-  console.log(`${params.id} pre rendering(dynamic)`);
+  // console.log(`${params.id} pre rendering(dynamic)`);
 
   return (
     <main className={styles.main}>
-      <Suspense fallback={<p>loading...</p>}>
-        {/* @ts-expect-error Server Component */}
-        <Article id={params.id} />
-      </Suspense>
+      {/* @ts-expect-error Server Component */}
+      <Article id={params.id} />
     </main>
   );
 };
